@@ -1,0 +1,336 @@
+*{
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+html,body{
+    background: linear-gradient(100deg, rgb(51, 182, 243), rgb(255, 0, 234), rgb(51, 182, 243), rgb(255, 0, 234));
+    display: flex;
+    justify-content: center;
+    margin-top: 3px;
+}
+/*Create Main Parent Container*/
+#mainGridParent{
+    display: flex;
+    background-color: black;
+    color: white;
+    height: 98vh;
+    width: 98.5vw;
+    min-width: 400px;
+    min-height: 500px;
+    border-radius: .75%;
+}
+/*Start Build on left panel*/
+#leftPanel{
+    flex-grow: .5;
+    display: grid;
+    grid-template-rows: 40px 40px 1fr;
+    height: 100%;
+    min-width: 300px;
+}
+#itasuTitle{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    margin-top: 11.5%;
+}
+#addProj{
+    background: rgb(51, 182, 243);
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: rgb(51, 182, 243);
+    transition: all .3s ease;
+}
+#addProj:hover{
+    color: black;
+    cursor: pointer;
+}
+#titleUnderline{
+    width: 80%;
+    height: 5px;
+    margin: 9%;
+    background: linear-gradient(100deg, rgb(51, 182, 243), rgb(255, 0, 234), rgb(51, 182, 243), rgb(255, 0, 234));
+}
+#projectTabs{
+    display: flex;
+    flex-direction: column;
+    border-right:none;
+    border-left: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#projectTabs > div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+}
+#projectTabs > div:hover{
+    background: rgb(33, 34, 34);
+    cursor: pointer;
+}
+p1{
+    font-size: 27px;
+}
+/*Build the falling pixel bar*/
+#timeBarBody{
+    background-color: white;
+    height: 100%;
+    width: 35px;
+    position: relative;
+}
+#sandBar{
+    background: lightsalmon;
+    width: 35px;
+    position: absolute;
+    bottom: 0px;
+}
+#pixelBoard{
+    background-color: silver;
+    height: 100%;
+    width: 35px;
+    overflow: hidden;
+}
+#sandPixel{
+    background-color: black;
+    width: 5px;
+    height: 5px;
+    float: left;
+}
+#clockBar{
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 5px;
+    width: 50px;
+    min-width: 50px;
+    height: 100%;
+}
+#clockBar > div{
+    flex-grow: 1;
+    border-bottom: white solid thin;
+    color:white;
+    display: flex;
+    align-items: center;
+}
+/*Start build on right side of timebar*/
+#rightPanel{
+    flex-grow: 2;
+    border-left: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+/*Build today panel*/
+#todayTab{
+    flex-grow: 1;
+    min-width: 450px;
+    overflow-y: auto;
+}
+#todayTitle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    height: 40px;
+    border-bottom: white solid thin;
+}
+#todayTitle > h1{
+    margin-left: 15px;
+    flex-grow: 1;
+}
+/*Build delete and add button*/
+#addDelete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#delete{
+    background: rgb(255, 0, 234);
+    margin-right: 20px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    color: rgb(255, 0, 234);
+    transition: all .3s ease;
+}
+#add{
+    background: rgb(51, 182, 243);
+    margin-right: 20px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: rgb(51, 182, 243);
+    transition: all .3s ease;
+}
+#add:hover{
+    color: black;
+    cursor: pointer;
+}
+#delete:hover{
+    color: black;
+    cursor: pointer;
+    font-weight: 600;
+}
+/*Style Checkbox*/
+#checkBox{
+    display: flex;
+    align-items: center;
+}
+input[type="checkbox"]{
+    height: 19px;
+    width: 19px;
+    margin: 20px;
+}
+input[type="checkbox"]:hover{
+    cursor: pointer;
+}
+input:checked + p{
+    text-decoration: line-through; 
+}
+p{
+    color: white;
+    font-size: .7cm;
+    height: 100%;
+    padding-left: 10px;
+    border-left:lightsalmon solid thin;
+}
+#checkBox:hover{
+    cursor: pointer;
+    background: rgb(33, 34, 34);
+}
+#addToListButton{
+    display: flex;
+    align-items: center;
+    margin: 15px;
+}
+#addToListButton > div{
+    background: rgb(51, 182, 243);
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: rgb(51, 182, 243);
+    transition: all .3s ease;
+}
+#addToListButton > div:hover{
+    color: black;
+    cursor: pointer;
+}
+/*Style the right side of today panel*/
+#rightSideBar{
+    width: 300px;
+    max-width: 300px;
+    min-width: 290px;
+    display: grid;
+    grid-template-rows: 70px auto 40px;
+}
+#deadlineBox{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 40px;
+padding-bottom: 10px;
+padding-top: 10px;
+margin-right: 10px;
+border-bottom: white solid thin;
+}
+#deadlineBox > h1{
+    flex: 1;
+    margin-top: 2px;
+    font-size: 25px;
+}
+#deadlineBox > p1{
+    flex:1;
+    font-size: 18px;
+}
+/*Build note area*/
+#notes{
+display: flex;
+justify-content: center;
+
+}
+textarea{
+    height: 99%;
+    width:280px;
+    background: black;
+    color: white;
+    font-size: 25px;
+}
+textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+/*Build remove bar*/
+#remove{
+    background: lightsalmon;
+    color: lightsalmon;
+    font-size: 25px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:all .3s ease;
+    border-radius: 2%;
+}
+#remove:hover{
+    color: black;
+    cursor: pointer;
+}
+/*Trash Icon from https://css.gg */
+.gg-trash {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 10px;
+    height: 12px;
+    border: 2px solid transparent;
+    box-shadow:
+    0 0 0 2px,
+    inset -2px 0 0,
+    inset 2px 0 0;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-top: 4px
+   }
+   .gg-trash::after,
+   .gg-trash::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute
+   } 
+   .gg-trash::after {
+    background: currentColor;
+    border-radius: 3px;
+    width: 16px;
+    height: 2px;
+    top: -4px;
+    left: -5px
+   }
+   .gg-trash::before {
+    width: 10px;
+    height: 4px;
+    border: 2px solid;
+    border-bottom: transparent;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    top: -7px;
+    left: -2px
+   } 
