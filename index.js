@@ -2,27 +2,38 @@ let projectArr = [];
 let dayListArr = [];
 let checkListArr = [];
 let newDayArr = [];
+let subCheckListArr = [];
 let play = this;
+let idCounterMain = 100;
 let loadFirstRule;
 let loadSecondRule;
 let loadThirdRule;
-localStorage.clear();
+let loadFourthRule;
+let loadFifthRule;
+
 class Day {
-    constructor(projectTitle) {
-        this.header = prompt("What day?");
-        this.projectTitle = projectTitle;
+    constructor(projectTitle, idCounter, header) {
+        this.header = header;
+        this.projectTitle = projectTitle; 
+        this.idCounter = idCounter; 
     }
     init() {
+        this.header = prompt('What Day?');
         this.cacheDom();
         this.addADay();
         this.removeMe();
         this.addOneCheckbox();
     };
+    initForRemake(){
+        this.cacheDom();
+        this.addADay();
+        this.removeMe();
+        this.addOneCheckbox();
+    }
     cacheDom(){
         this.dayTabPlus = document.getElementById(this.projectTitle);
         this.daySuperPlus = this.dayTabPlus.firstChild;
         
-
         this.xtitle = document.createElement('div');
         this.xtitle.id = "title";
         
@@ -36,7 +47,7 @@ class Day {
         this.delete.id = "delete";
         this.delete.innerText = "x";       
         this.checkBoxParent = document.createElement('div');
-        this.checkBoxParent.id = 'checkBoxParent';
+        this.checkBoxParent.id = this.idCounter;
         
         this.addToListButt = document.createElement('div');
         this.addToListButt.id = "addToListButton";
@@ -52,6 +63,7 @@ class Day {
         this.daySuperPlus.appendChild(this.xtitle);
         this.daySuperPlus.appendChild(this.checkBoxParent);
         this.daySuperPlus.appendChild(this.addToListButt);
+     
     };
     removeMe(){
         this.delete.addEventListener('click', () => {
@@ -74,6 +86,18 @@ class Day {
             this.checkBox.appendChild(this.input);
             this.checkBox.appendChild(this.p);
             this.checkBoxParent.appendChild(this.checkBox);
+           
+            let miniCheckArr = [];
+
+          
+            miniCheckArr.push(this.idCounter);
+            miniCheckArr.push(this.p.innerText);
+            subCheckListArr.push(miniCheckArr);
+            
+            localStorage.setItem('ruleFive', JSON.stringify(subCheckListArr));
+            console.log(localStorage.ruleFive);
+
+          
         });
     };
 };
@@ -180,8 +204,12 @@ class Daylist {
     }
     addNewDay() {
         this.add.addEventListener('click', () => {
-            let newDay = new Day(this.projectTitle);
+            let newDay = new Day(this.projectTitle, idCounterMain);
             newDay.init();
+           
+            newDayArr.push(newDay);
+            idCounterMain +=1;
+            localStorage.setItem('ruleFour', JSON.stringify(newDayArr));
         });
     };
     addOneCheckbox(){
@@ -200,10 +228,11 @@ class Daylist {
             this.checkBoxParent.appendChild(this.checkBox);
 
             let miniCheckArr = [];
-            miniCheckArr[0]= this.projectTitle;
+
+            miniCheckArr.push(this.projectTitle);
             miniCheckArr.push(this.p.innerText);
             checkListArr.push(miniCheckArr);
-            console.log(checkListArr);
+            
 
             localStorage.setItem('ruleThree', JSON.stringify(checkListArr));
             console.log(localStorage.ruleThree);
@@ -263,7 +292,6 @@ class Project {
                    dayListArr[i].parentContainer.style.display = 'none';
                 }
             }
-            console.log(dayListArr);
         })
     }
 };
@@ -272,7 +300,7 @@ class Project {
     if(localStorage.length != 0) {
         loadFirstRule = JSON.parse(localStorage.getItem("ruleOne"));
         loadSecondRule = JSON.parse(localStorage.getItem("ruleTwo"));
-        
+
         for(let i=0; i < loadFirstRule.length; i++) {
             var elTitle = loadFirstRule[i].projectTitle;
             var createNewProject = new Project(elTitle);
@@ -283,8 +311,10 @@ class Project {
             var createNewDay = new Daylist(laTitle);
             createNewDay.startNewProject();
             dayListArr.push(createNewDay);
-        }
+        };
         remakeCheckList();
+        rebuildDayCheckList();
+        remakeSubCheckList()
     }else {
         console.log('Empty');
     }
@@ -311,8 +341,8 @@ function makeNewDayList(title) {
 
 function remakeCheckList() {
     loadThirdRule = JSON.parse(localStorage.getItem("ruleThree"));
-    checkListArr = loadThirdRule;
-    n = 0;
+   
+    console.log(loadThirdRule);
     if(localStorage.ruleThree != null) {
         for(let i = 0; i < loadThirdRule.length; i++) {
             let classSelectName = loadThirdRule[i][0];
@@ -329,12 +359,68 @@ function remakeCheckList() {
             checkBox.appendChild(input);
             checkBox.appendChild(p);
             getParentElement.appendChild(checkBox);
+
+
+            let miniCheckArr = [];
+
+            miniCheckArr.push(loadThirdRule[i][0]);
+            miniCheckArr.push(loadThirdRule[i][1]);
+            checkListArr.push(miniCheckArr);
             };
     }
-}
+};
+
+function rebuildDayCheckList() {
+    loadFourthRule = JSON.parse(localStorage.getItem('ruleFour'));
+    if(localStorage.ruleFour != null) {
+        for(var x = 0; x < loadFourthRule.length; x++) {
+            let dayTitle = loadFourthRule[x].projectTitle;
+            let header = loadFourthRule[x].header;
+            let counter = loadFourthRule[x].idCounter;
+            let newDay = new Day(dayTitle, counter, header);
+           
+            newDay.initForRemake();
+            newDayArr.push(newDay);
+            idCounterMain +=1;
+        }
+        }else{
+            console.log('dead');
+        };   
+};
+
+function remakeSubCheckList() {
+    loadFifthRule = JSON.parse(localStorage.getItem("ruleFive"));
+    console.log(loadFifthRule);
+    if(localStorage.ruleFive != null) {
+        for(let i = 0; i < loadFifthRule.length; i++) {
+            let idSelector = loadFifthRule[i][0];
+            let parentElement = document.getElementById(idSelector);
+            
+            let checkBilly = document.createElement('div');
+            checkBilly.id = 'checkBox';
+
+            let input = document.createElement('input');
+            input.type = "checkbox";
+
+            let p = document.createElement('p');
+            p.innerText = loadFifthRule[i][1];
 
 
+            checkBilly.appendChild(input);
+            checkBilly.appendChild(p);
+            parentElement.appendChild(checkBilly);
 
+            let miniCheckArr = [];
+
+          
+            miniCheckArr.push(loadFifthRule[i][0]);
+            miniCheckArr.push(loadFifthRule[i][1]);
+            subCheckListArr.push(miniCheckArr);
+
+            
+            };
+    }
+};
 
 
 //Time sandbar and animation controls
