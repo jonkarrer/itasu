@@ -221,26 +221,32 @@ class Project {
         this.projectTitle = projectTitle;
         this.id = projectArr.length;
         this.textAreaId = this.projectTitle + 'zzzy';
+        this.inText = projectTitle;
     };
     init() {
         this.cacheDom();
         this.buildProjectRectangle();
         this.deleteMe();
         this.reLoadMe();
+        this.editMe();
     };
     cacheDom() {
         this.projectPanel = document.getElementById('projectTabs');
         this.blankDiv = document.createElement('div');
         this.blankDiv.id = this.id;
         this.titleDiv = document.createElement('div');
+        this.editDiv = document.createElement('div');
+        this.editDiv.className = 'gg-pen';
+        this.editDiv.id = 'editIcon';
         this.iconDiv = document.createElement('div');
         this.iconDiv.className = 'gg-trash';
         this.titleParaElement = document.createElement('p1');   
     };
     buildProjectRectangle() {
-        this.titleParaElement.innerText = this.projectTitle;
+        this.titleParaElement.innerText = this.inText;
         this.titleDiv.appendChild(this.titleParaElement);
         this.blankDiv.appendChild(this.titleDiv);
+        this.blankDiv.appendChild(this.editDiv);
         this.blankDiv.appendChild(this.iconDiv);
         this.projectPanel.appendChild(this.blankDiv);  
     };
@@ -248,7 +254,6 @@ class Project {
        let targetElement = document.getElementById(this.id);
        this.iconDiv.addEventListener('click', () => 
         {
-            console.log(this.textAreaId);
             projectArr.splice(this.id, 1);
             dayListArr.splice(this.id, 1);
             checkListArr = checkListArr.filter(item => item[0] != this.projectTitle);
@@ -264,6 +269,17 @@ class Project {
             targetElement.remove();
             let targetDayList = document.getElementById(this.projectTitle);
             targetDayList.remove();  
+        })
+    };
+    editMe() {
+        this.editDiv.addEventListener('click', () => 
+        {
+            this.inText = prompt('New Name');
+            this.titleParaElement.innerText = this.inText;
+            projectArr[this.id].inText = this.inText;
+            localStorage.setItem('ruleOne', JSON.stringify(projectArr));
+            console.log(projectArr);
+            console.log(localStorage.ruleOne);
         })
     };
     reLoadMe(){
@@ -286,6 +302,7 @@ class Project {
         for(let i=0; i < loadFirstRule.length; i++) {
             var elTitle = loadFirstRule[i].projectTitle;
             var createNewProject = new Project(elTitle);
+            createNewProject.inText = loadFirstRule[i].inText;
             createNewProject.init();
             projectArr.push(createNewProject);
             var laTitle = loadSecondRule[i].projectTitle;
