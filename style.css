@@ -185,6 +185,9 @@ p1{
     display: flex;
     align-items: center;
 }
+#removeThisCheckbox{
+    margin: auto;
+}
 input[type="checkbox"]{
     height: 19px;
     width: 19px;

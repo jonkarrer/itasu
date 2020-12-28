@@ -109,6 +109,7 @@ class Daylist {
         this.addOneCheckbox();
         this.addNewDay();
         this.saveNotesButton();
+        this.deleteCheckboxButton();
     };
     titleCacheDom() {
         this.dayTab = document.createElement('div');
@@ -196,6 +197,7 @@ class Daylist {
             localStorage.setItem('ruleFour', JSON.stringify(newDayArr));
         });
     };
+    
     addOneCheckbox(){
         this.addToListButt.addEventListener('click', () => {
             this.checkBox = document.createElement('div');
@@ -204,8 +206,13 @@ class Daylist {
             this.input.type = "checkbox";
             this.p = document.createElement('p');
             this.p.innerText = prompt('Name of item?');
+            this.newDiv = document.createElement('div');
+            this.newDiv.className = 'gg-trash';
+            this.newDiv.id = 'removeThisCheckbox';
+            this.newDiv.addEventListener('click', deleteTodayChecklist);
             this.checkBox.appendChild(this.input);
             this.checkBox.appendChild(this.p);
+            this.checkBox.appendChild(this.newDiv);
             this.checkBoxParent.appendChild(this.checkBox);
             let miniCheckArr = [];
             miniCheckArr.push(this.projectTitle);
@@ -213,6 +220,11 @@ class Daylist {
             checkListArr.push(miniCheckArr);  
             localStorage.setItem('ruleThree', JSON.stringify(checkListArr));
         })
+    }
+    deleteCheckboxButton() {
+       
+
+        
     }
 };
 //Project builder
@@ -344,16 +356,31 @@ function remakeCheckList() {
             input.type = "checkbox";
             let p = document.createElement('p');
             p.innerText = loadThirdRule[i][1];
+            let newDiv = document.createElement('div');
+            newDiv.className = 'gg-trash';
+            newDiv.id = 'removeThisCheckbox';
+            newDiv.addEventListener('click', deleteTodayChecklist)
             checkBox.appendChild(input);
             checkBox.appendChild(p);
+            checkBox.appendChild(newDiv);
             getParentElement.appendChild(checkBox);
             let miniCheckArr = [];
             miniCheckArr.push(loadThirdRule[i][0]);
             miniCheckArr.push(loadThirdRule[i][1]);
             checkListArr.push(miniCheckArr);
             };
+     
     };
 };
+
+function deleteTodayChecklist(evt) {
+    let target = evt.currentTarget || evt.srcElement;
+    target.parentElement.style.display = 'none';
+    let arrayTarget = target.parentElement.innerText;
+    checkListArr = checkListArr.filter(item => item[1] != arrayTarget);
+    localStorage.setItem('ruleThree', JSON.stringify(checkListArr));
+}
+
 function rebuildDayCheckList() {
     loadFourthRule = JSON.parse(localStorage.getItem('ruleFour'));
     if(localStorage.ruleFour != null) {
